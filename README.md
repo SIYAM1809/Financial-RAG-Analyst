@@ -8,9 +8,8 @@
 
 A production-ready **Retrieval-Augmented Generation (RAG)** application that analyzes complex financial documents (SEC 10-K filings) with high precision. Built with **LlamaIndex**, **Qdrant**, and **OpenAI**, deployed on **Streamlit Cloud**.
 
-## 🚀 Live Demo
-**[Click here to try the Live App]([https://financial-rag-analyst-sam.streamlit.app/])**
-
+## 🚀 Live App
+**[Click here to try the Live App](https://financial-rag-analyst-sam.streamlit.app/)**
 ## 💡 What It Does
 Financial reports like SEC 10-K filings are hundreds of pages long, filled with complex tables and dense legal text. Standard LLMs often hallucinate specific numbers when asked to compare data across these documents.
 
