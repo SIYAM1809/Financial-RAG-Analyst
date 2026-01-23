@@ -11,7 +11,11 @@ A production-ready **Retrieval-Augmented Generation (RAG)** application that ana
 ## 🚀 Live App
 **[Click here to try the Live App](https://financial-rag-analyst-sam.streamlit.app/)**
 ## 📸 Interface Preview
-![App Screenshot](UI/Hpmepage(RAG1).png)
+<p align="center">
+  <img src="UI/Homepage(RAG1).png" width="45%" />
+  &nbsp; &nbsp; &nbsp; &nbsp;
+  <img src="UI/Answer(RAG1).png" width="45%" />
+</p>
 
 ## 💡 What It Does
 Financial reports like SEC 10-K filings are hundreds of pages long, filled with complex tables and dense legal text. Standard LLMs often hallucinate specific numbers when asked to compare data across these documents.
