@@ -50,7 +50,7 @@ def load_rag_engine():
 
 # --- 3. MAIN INTERFACE ---
 st.title("⚡ AI Financial Analyst")
-st.markdown("### Powered by Llama 3.1 & Groq (Zero Cost)")
+st.markdown("### Powered by Llama 3.1 & Groq")
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
