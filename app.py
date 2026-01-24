@@ -2,7 +2,7 @@ import streamlit as st
 from llama_index.core import VectorStoreIndex, StorageContext, Settings
 from llama_index.vector_stores.qdrant import QdrantVectorStore
 from llama_index.embeddings.huggingface import HuggingFaceEmbedding
-from llama_index.llms.groq import Groq # <--- New Import
+from llama_index.llms.groq import Groq
 import qdrant_client
 
 # --- 1. PAGE CONFIG ---
@@ -21,7 +21,7 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-# --- 2. LOAD ENGINE (Using Free Groq) ---
+# --- 2. LOAD ENGINE (Using Free Groq Llama 3.1) ---
 @st.cache_resource(show_spinner=False)
 def load_rag_engine():
     # 1. Fetch keys securely
@@ -33,8 +33,9 @@ def load_rag_engine():
     q_url = st.secrets["QDRANT_URL"]
     q_key = st.secrets["QDRANT_API_KEY"]
     
-    # 2. Configure Groq (Llama 3) - COMPLETELY FREE
-    llm = Groq(model="llama3-8b-8192", api_key=groq_key)
+    # 2. Configure Groq (UPDATED to Llama 3.1)
+    # The old model 'llama3-8b-8192' is dead. We use the new one below:
+    llm = Groq(model="llama-3.1-8b-instant", api_key=groq_key) 
     Settings.llm = llm
     
     # 3. Embeddings (Still using free HuggingFace model)
@@ -48,8 +49,8 @@ def load_rag_engine():
     return VectorStoreIndex.from_vector_store(vector_store, storage_context=storage_context).as_query_engine(similarity_top_k=5)
 
 # --- 3. MAIN INTERFACE ---
-st.title("⚡ AI Financial Analyst (Free Ed.)")
-st.markdown("### Powered by Llama 3 & Groq (Zero Cost)")
+st.title("⚡ AI Financial Analyst")
+st.markdown("### Powered by Llama 3.1 & Groq (Zero Cost)")
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
