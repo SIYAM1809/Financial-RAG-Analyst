@@ -1,6 +1,7 @@
 # 📊 Financial RAG Analyst: SEC 10-K Insight Engine
 
 [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://share.streamlit.io/your-username/financial-rag-analyst)
+![Python Application Test](https://github.com/SIYAM1809/Financial-RAG-Analyst/actions/workflows/ci_pipeline.yml/badge.svg)
 ![Python](https://img.shields.io/badge/Python-3.10%2B-blue)
 ![LlamaIndex](https://img.shields.io/badge/LlamaIndex-0.10%2B-purple)
 ![Qdrant](https://img.shields.io/badge/Vector_DB-Qdrant-red)
