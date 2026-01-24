@@ -1,6 +1,7 @@
 # 📊 Financial RAG Analyst: SEC 10-K Insight Engine
 
 [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://share.streamlit.io/your-username/financial-rag-analyst)
+![Python Application Test](https://github.com/SIYAM1809/Financial-RAG-Analyst/actions/workflows/ci_pipeline.yml/badge.svg)
 ![Python](https://img.shields.io/badge/Python-3.10%2B-blue)
 ![LlamaIndex](https://img.shields.io/badge/LlamaIndex-0.10%2B-purple)
 ![Qdrant](https://img.shields.io/badge/Vector_DB-Qdrant-red)
@@ -10,6 +11,13 @@ A production-ready **Retrieval-Augmented Generation (RAG)** application that ana
 
 ## 🚀 Live App
 **[Click here to try the Live App](https://financial-rag-analyst-sam.streamlit.app/)**
+## 📸 Interface Preview
+<p align="center">
+  <img src="UI/Homepage(RAG1).png" width="45%" />
+  &nbsp; &nbsp; &nbsp; &nbsp;
+  <img src="UI/Answer(RAG1).png" width="45%" />
+</p>
+
 ## 💡 What It Does
 Financial reports like SEC 10-K filings are hundreds of pages long, filled with complex tables and dense legal text. Standard LLMs often hallucinate specific numbers when asked to compare data across these documents.
 
