@@ -10,7 +10,7 @@ st.markdown("### Monitor AI Performance & Hallucinations")
 
 # Passphrase protection
 password = st.sidebar.text_input("Admin Password", type="password")
-if password != "admin123":
+if password != "siyam44":
     st.warning("Please enter admin password.")
     st.stop()
 
