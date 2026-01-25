@@ -89,10 +89,13 @@ if prompt := st.chat_input("Compare Microsoft and Google cloud growth..."):
 # If the last message was from the AI, show feedback buttons
 if st.session_state.messages and st.session_state.messages[-1]["role"] == "assistant":
     st.write("---")
-    col1, col2, col3 = st.columns([1, 1, 5])
+    
+    # 1. CHANGED: Ratios [2, 2, 6] give the buttons 2x more width than before
+    col1, col2, col3 = st.columns([2, 2, 6])
     
     with col1:
-        if st.button("👍 Good Answer"):
+        # 2. CHANGED: 'use_container_width=True' forces the button to stretch
+        if st.button("👍 Good Answer", use_container_width=True):
             logger.log_interaction(
                 st.session_state.messages[-2]["content"], # The Question
                 st.session_state.messages[-1]["content"], # The Answer
@@ -101,7 +104,8 @@ if st.session_state.messages and st.session_state.messages[-1]["role"] == "assis
             st.toast("Thanks for the feedback! (Logged to System)")
             
     with col2:
-        if st.button("👎 Bad/Hallucinated"):
+        # 2. CHANGED: 'use_container_width=True' prevents the text from wrapping
+        if st.button("👎 Bad/Hallucinated", use_container_width=True):
             logger.log_interaction(
                 st.session_state.messages[-2]["content"], 
                 st.session_state.messages[-1]["content"], 
