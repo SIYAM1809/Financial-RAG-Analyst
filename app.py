@@ -90,8 +90,8 @@ if prompt := st.chat_input("Compare Microsoft and Google cloud growth..."):
 if st.session_state.messages and st.session_state.messages[-1]["role"] == "assistant":
     st.write("---")
     
-    # 1. CHANGED: Ratios [3, 3, 8] give the buttons 2x more width than before
-    col1, col2, col3 = st.columns([2, 2, 6])
+    # 1. CHANGED: Ratios [2, 2, 6] give the buttons 2x more width than before
+    col1, col2, col3 = st.columns([3, 3, 8])
     
     with col1:
         # 2. CHANGED: 'use_container_width=True' forces the button to stretch
