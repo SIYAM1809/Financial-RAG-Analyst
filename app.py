@@ -91,7 +91,7 @@ if st.session_state.messages and st.session_state.messages[-1]["role"] == "assis
     st.write("---")
     
     # 1. CHANGED: Ratios [2, 2, 6] give the buttons 2x more width than before
-    col1, col2, col3 = st.columns([3, 3, 8])
+    col1, col2, col3 = st.columns([2, 2, 6])
     
     with col1:
         # 2. CHANGED: 'use_container_width=True' forces the button to stretch
@@ -105,7 +105,7 @@ if st.session_state.messages and st.session_state.messages[-1]["role"] == "assis
             
     with col2:
         # 2. CHANGED: 'use_container_width=True' prevents the text from wrapping
-        if st.button("👎 Bad/Hallucinated", use_container_width=True):
+        if st.button("👎 Bad Answer", use_container_width=True):
             logger.log_interaction(
                 st.session_state.messages[-2]["content"], 
                 st.session_state.messages[-1]["content"], 
