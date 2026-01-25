@@ -10,14 +10,23 @@
 
 A production-ready **Retrieval-Augmented Generation (RAG)** application that analyzes complex financial documents (SEC 10-K filings) with high precision. Built with **LlamaIndex**, **Qdrant**, and **Groq (Llama 3)**, deployed on **Streamlit Cloud**.
 
+**Now features Enterprise Observability:** Includes a secure Admin Dashboard to track hallucinations, monitor latency, and gather user feedback (RLHF).
+
 ## 🚀 Live App
 **[Click here to try the Live App](https://financial-rag-analyst-sam.streamlit.app/)**
 
 ## 📸 Interface Preview
+### 1. The Analyst (Chat Interface)
 <p align="center">
   <img src="UI/Homepage(RAG1).png" width="45%" />
   &nbsp; &nbsp; &nbsp; &nbsp;
   <img src="UI/Answer(RAG1).png" width="45%" />
+</p>
+
+### 2. The Observer (Admin Dashboard)
+*Monitor system performance and user feedback in real-time.*
+<p align="center">
+  <img src="UI/Dashboard.png" width="95%" />
 </p>
 
 ## 💡 What It Does
@@ -27,7 +36,8 @@ Financial reports like SEC 10-K filings are hundreds of pages long, filled with 
 1.  **Ingesting** raw PDFs using **LlamaParse** to accurately extract table structures.
 2.  **Indexing** data into **Qdrant Cloud** using semantic vector embeddings.
 3.  **Retrieving** the exact context (e.g., page 52, Table 3) before answering.
-4.  **Synthesizing** a hallucination-free answer using **Llama 3 via Groq** (Fast & Free).
+4.  **Synthesizing** a hallucination-free answer using **Llama 3 via Groq**.
+5.  **Monitoring** quality via a feedback loop (Thumbs Up/Down) stored in a secure log.
 
 ## 🏗️ System Architecture
 
@@ -40,6 +50,8 @@ graph LR
     D -->|Retrieve Top-5 Contexts| F[Prompt Construction]
     F -->|Groq Llama 3| G[Final Answer]
     G -->|Streamlit UI| H[User Screen]
+    H -->|Thumbs Up/Down| I[Logger System]
+    I -->|Analytics| J[Admin Dashboard]
 ```
 ## ⚡ Key Features
 **Multi-Document Analysis**: Compare metrics across Apple, Microsoft, and Google simultaneously.
@@ -49,6 +61,8 @@ graph LR
 **Source-Grounded Truth**: Answers are strictly based on the provided filings, eliminating "model bias."
 
 **Cloud-Native**: Vector data persists in Qdrant Cloud; App runs on Streamlit Community Cloud.
+
+**AI Observability**: Built-in logging system to track user queries and flag hallucinations.
 
 **Zero-Cost Inference**: Powered by Groq's free tier, making the app blazing fast and free to run.
 
@@ -88,6 +102,7 @@ Ini, TOML
 GROQ_API_KEY = "gsk_..."
 QDRANT_URL = "[https://your-cluster-url.qdrant.io](https://your-cluster-url.qdrant.io)"
 QDRANT_API_KEY = "your-qdrant-key"
+ADMIN_PASSWORD = "admin123"
 ```
 4. Run the App
 
@@ -107,6 +122,9 @@ streamlit run app.py
 ## 📂 Repository Structure
 ```text
 ├── app.py                 # Main Streamlit application
+├── logger.py              # Logging system for observability
+├── pages/
+│   └── admin_dashboard.py # Secure analytics dashboard
 ├── requirements.txt       # Python dependencies
 ├── Dockerfile             # Container configuration
 ├── .github/workflows/     # CI/CD Automated Testing
