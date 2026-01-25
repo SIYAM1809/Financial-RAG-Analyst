@@ -6,3 +6,5 @@ llama-index-llms-openai
 qdrant-client
 nest_asyncio
 llama-index-llms-groq
+pandas
+plotly
