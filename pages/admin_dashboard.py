@@ -8,18 +8,39 @@ st.set_page_config(page_title="Admin Observability", layout="wide")
 st.title("🕵️‍♂️ RAG Observability Dashboard")
 st.markdown("### Monitor AI Performance & Hallucinations")
 
-# Passphrase protection
-password = st.sidebar.text_input("Admin Password", type="password")
-if password != "siyam44":
-    st.warning("Please enter admin password.")
+# --- AUTHENTICATION (SECURE) ---
+# 1. Check if the password is set in Secrets
+if "ADMIN_PASSWORD" not in st.secrets:
+    st.error("🚨 Admin password not set in Streamlit Secrets.")
     st.stop()
+
+correct_password = st.secrets["ADMIN_PASSWORD"]
+
+# 2. Input Field
+user_password = st.sidebar.text_input("Admin Password", type="password")
+
+# 3. Logic: Empty vs. Wrong
+if not user_password:
+    st.info("🔒 Please enter the admin password in the sidebar to access.")
+    st.stop()
+elif user_password != correct_password:
+    st.error("❌ Incorrect Password.")
+    st.stop()
+else:
+    st.sidebar.success("Access Granted ✅")
+
+# --- DASHBOARD LOGIC (Only runs if password is correct) ---
 
 # Load Data
 if not os.path.exists("rag_logs.csv"):
-    st.info("No logs found yet. Go ask some questions in the main app!")
+    st.warning("No logs found yet. Go ask some questions in the main app to generate data!")
     st.stop()
 
-df = pd.read_csv("rag_logs.csv")
+try:
+    df = pd.read_csv("rag_logs.csv")
+except Exception as e:
+    st.error(f"Error reading log file: {e}")
+    st.stop()
 
 # --- KPI METRICS ---
 col1, col2, col3 = st.columns(3)
@@ -45,8 +66,12 @@ st.markdown("---")
 # --- VISUALIZATION ---
 st.subheader("📊 Feedback Distribution")
 if not df.empty and 'Feedback' in df.columns:
-    fig = px.pie(df, names='Feedback', title='User Satisfaction Rate', hole=0.4)
-    st.plotly_chart(fig)
+    # Check if there is actual data to plot to avoid Plotly errors
+    if df['Feedback'].notna().any():
+        fig = px.pie(df, names='Feedback', title='User Satisfaction Rate', hole=0.4)
+        st.plotly_chart(fig)
+    else:
+        st.info("Waiting for first feedback rating...")
 
 # --- RAW LOGS ---
 st.subheader("📝 Recent Interaction Logs")
