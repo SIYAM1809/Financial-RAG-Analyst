@@ -4,6 +4,7 @@ from llama_index.vector_stores.qdrant import QdrantVectorStore
 from llama_index.embeddings.huggingface import HuggingFaceEmbedding
 from llama_index.llms.groq import Groq
 import qdrant_client
+import logger  # <--- IMPORT YOUR NEW LOGGER
 
 # --- 1. PAGE CONFIG ---
 st.set_page_config(page_title="Financial RAG Analyst", page_icon="📈", layout="wide")
@@ -15,7 +16,7 @@ st.markdown(
         h1 { background: -webkit-linear-gradient(45deg, #FF5722, #FFC107); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .stTextInput > div > div > input { background-color: #374151; color: white; border-radius: 8px; }
         .stButton > button { background: linear-gradient(45deg, #FF5722, #FFC107); color: white; border: none; padding: 12px 24px; border-radius: 8px; }
-        [data-testid="stSidebar"] { display: none; }
+        /* I removed the 'Hide Sidebar' CSS so you can access the Admin Dashboard */
     </style>
     """,
     unsafe_allow_html=True,
@@ -34,7 +35,6 @@ def load_rag_engine():
     q_key = st.secrets["QDRANT_API_KEY"]
     
     # 2. Configure Groq (UPDATED to Llama 3.1)
-    # The old model 'llama3-8b-8192' is dead. We use the new one below:
     llm = Groq(model="llama-3.1-8b-instant", api_key=groq_key) 
     Settings.llm = llm
     
@@ -49,17 +49,20 @@ def load_rag_engine():
     return VectorStoreIndex.from_vector_store(vector_store, storage_context=storage_context).as_query_engine(similarity_top_k=5)
 
 # --- 3. MAIN INTERFACE ---
-st.title("⚡ AI Financial Analyst")
+st.title("⚡ AI Financial Analyst (Pro)")
 st.markdown("### Powered by Llama 3.1 & Groq")
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
+# Display history
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
 
+# --- THE NEW OBSERVABILITY LOOP ---
 if prompt := st.chat_input("Compare Microsoft and Google cloud growth..."):
+    # 1. Show User Message
     st.chat_message("user").markdown(prompt)
     st.session_state.messages.append({"role": "user", "content": prompt})
 
@@ -68,10 +71,40 @@ if prompt := st.chat_input("Compare Microsoft and Google cloud growth..."):
         
         with st.chat_message("assistant"):
             with st.spinner("Thinking at lightspeed..."):
-                response = engine.query(prompt)
-                st.markdown(response)
+                # 2. Generate Answer
+                response_obj = engine.query(prompt)
+                response_text = str(response_obj)
+                st.markdown(response_text)
                 
-        st.session_state.messages.append({"role": "assistant", "content": str(response)})
+                # 3. Log the interaction immediately (Feedback is 'Pending' for now)
+                logger.log_interaction(prompt, response_text, "Pending")
+                
+        st.session_state.messages.append({"role": "assistant", "content": response_text})
+        st.rerun() # Force refresh to show feedback buttons below
 
     except Exception as e:
         st.error(f"An error occurred: {e}")
+
+# --- FEEDBACK MECHANISM (The "1%" Feature) ---
+# If the last message was from the AI, show feedback buttons
+if st.session_state.messages and st.session_state.messages[-1]["role"] == "assistant":
+    st.write("---")
+    col1, col2, col3 = st.columns([1, 1, 5])
+    
+    with col1:
+        if st.button("👍 Good Answer"):
+            logger.log_interaction(
+                st.session_state.messages[-2]["content"], # The Question
+                st.session_state.messages[-1]["content"], # The Answer
+                "Positive"
+            )
+            st.toast("Thanks for the feedback! (Logged to System)")
+            
+    with col2:
+        if st.button("👎 Bad/Hallucinated"):
+            logger.log_interaction(
+                st.session_state.messages[-2]["content"], 
+                st.session_state.messages[-1]["content"], 
+                "Negative"
+            )
+            st.toast("Flagged for review. We will improve this.")
