@@ -105,7 +105,7 @@ if st.session_state.messages and st.session_state.messages[-1]["role"] == "assis
             
     with col2:
         # 2. CHANGED: 'use_container_width=True' prevents the text from wrapping
-        if st.button("👎 Bad Answer", use_container_width=True):
+        if st.button("👎 Hallucinated", use_container_width=True):
             logger.log_interaction(
                 st.session_state.messages[-2]["content"], 
                 st.session_state.messages[-1]["content"], 
