@@ -26,7 +26,13 @@ A production-ready **Retrieval-Augmented Generation (RAG)** application that ana
 ### 2. The Observer (Admin Dashboard)
 *Monitor system performance and user feedback in real-time.*
 <p align="center">
-  <img src="UI/AdminDashboard(RAG1).png" width="95%" hight="30%" />
+  <img src="UI/AdminDashboard(RAG1).png" width="55%" hight="10%" />
+</p>
+
+### 3.Mind Map
+*Overall structure*
+<p align="center">
+  <img src="UI/NotebookLM Mind Map(RAG).png" width="55%" hight="5%" />
 </p>
 
 ## 💡 What It Does
